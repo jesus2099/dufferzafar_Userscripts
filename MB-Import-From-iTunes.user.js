@@ -1,11 +1,12 @@
 // ==UserScript==
 // @name        MusicBrainz: Import from iTunes
 // @description Import releases from iTunes
-// @version     2017.11.21.1
+// @version     2019.5.22
 // @author      -
 // @namespace   http://github.com/dufferzafar/Userscripts
 //
 // @include     *://itunes.apple.com/*
+// @match       *://music.apple.com/*
 // @run-at document-idle 
 //
 // ==/UserScript==
@@ -14,10 +15,10 @@
 var myform = document.createElement("form");
 var artist = '', album = '', year = 0, month = 0, day = 0, country = 'XW', type = 'album', discs = 0;
 
-if (m = /^https?:\/\/itunes.apple.com\/(?:([a-z]{2})\/)?album\/(?:[^\/]+\/)?(id)?([0-9]+)/.exec(document.location.href)) {
+if (m = /^\/(?:([a-z]{2})\/)?album\/(?:[^\/]+\/)?(id)?([0-9]+)/.exec(document.location.pathname)) {
     country = m[1];
 
-    var url = document.location.protocol + "//itunes.apple.com/lookup?id=" + m[3] + "&entity=song&limit=200";
+    var url = document.location.protocol + "//" + document.location.host + "/lookup?id=" + m[3] + "&entity=song&limit=200";
     if (m[1]) url = url + "&country=" + m[1];
     var xmlhttp = new XMLHttpRequest();
     xmlhttp.open('GET', url, true);
